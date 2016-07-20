@@ -179,5 +179,5 @@ def toexcel(s_date, e_date):
 if __name__ == '__main__':
     s_date = '2016-07-01'
     e_date = '2016-07-02'
-    # print getidvalue(s_date, e_date)
-    toexcel(s_date, e_date)
+    print getidvalue(s_date, e_date)
+    # print toexcel(s_date, e_date)
