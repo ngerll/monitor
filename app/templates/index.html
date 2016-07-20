@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Monitor</title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.css">
+    <link rel="stylesheet"
+          href="../static/bootstrap-datetimepicker.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+
+<div class="container">
+    <div class="header clearfix">
+        <h3 class="text-primary"><strong>维护进度监控</strong></h3>
+        <hr>
+    </div>
+
+
+
+        <div class="col-xs-12">
+            <div class="text-center">
+                <form class="form-inline" action="/monitor/getinfo" id="dateform">
+                    <div class="form-group">
+                        <label for="startdate">计划开始时间</label>
+                        <input type="text" id="startdate" name="s_date">
+                    </div>
+                    <div class="form-group">
+                        <label for="enddate">到</label>
+                        <input type="text" id="enddate" name="e_date">
+                    </div>
+                    <div class="text-center">
+                        <hr>
+                        <div class="col-xs-6 col-xs-offset-3">
+                            <button type="button" class="btn btn-danger btn-block" id="queryinfo">下载计划明细报表</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="col-xs-6 col-xs-offset-3">
+            <hr>
+            <div class="alert alert-success text-center" role="alert" id="queryingalert">
+
+            </div>
+        </div>
+
+
+
+
+</div>
+
+<script src="http://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.js"></script>
+<script src="../static/bootstrap-datetimepicker.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#queryingalert").hide();
+
+        $("#startdate").datetimepicker({
+            format: 'yyyy-mm-dd',
+            minView: "month",
+            autoclose: true
+        });
+
+        $("#enddate").datetimepicker({
+            format: 'yyyy-mm-dd',
+            minView: "month",
+            autoclose: true
+        });
+    });
+
+  $("#queryinfo").on('click', function () {
+      $("#queryingalert").html("<h4 class='text-center'>正在下载，请稍等！</h4>")
+
+        var s_date = $("#startdate").val();
+        var e_date = $("#enddate").val();
+
+        $("#queryingalert").show();
+
+        data = {
+            's_date': s_date,
+            'e_date': e_date
+        };
+
+        url = "/monitor/getinfo";
+
+        $.ajax({
+            url: url,
+            data: data,
+            success: function (res) {
+                if (res == 'err'){
+                    $("#queryingalert").html("<h4 class='text-center'>下载失败,请稍后尝试,谢谢!</h4>");
+                }else{
+                    $("#dateform").submit();
+                    $("#queryingalert").html("<h4 class='text-center'>" + s_date + "至" + e_date + "的数据下载成功!</h4>");
+                }
+            }
+        });
+  })
+
+
+</script>
+
+</body>
+</html>
