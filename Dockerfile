@@ -6,6 +6,9 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update
 RUN apt-get -y install nginx sed python-pip python-dev uwsgi-plugin-python
+RUN apt-get -y install libxml2 libxml2-dev
+RUN apt-get -y install libxlst libxslt-dev
+RUN apt-get -y install python-libxml2 python-libxslt
 
 copy app /var/www/app
 RUN sudo pip install -r /var/www/app/requirements.txt
