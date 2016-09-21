@@ -87,7 +87,7 @@ def getinfo(idvalue, header, area, area_code, s_date, e_date, cookie):
         'queryForm:statusHidden': 0,
         'queryForm:beginTimeInputDate': s_date,
         'queryForm:endTimeInputDate': e_date,
-        'queryForm:queryFlag': '当前计划',
+        'queryForm:queryFlag': '历史计划',
         'queryForm:currPageObjId': 1,
         'queryForm:pageSizeText': 1000,
         'javax.faces.ViewState': idvalue,
