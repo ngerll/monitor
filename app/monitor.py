@@ -4,6 +4,7 @@ import sys
 
 from flask import Flask, request, render_template, make_response
 import gmoninfo
+import requests
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -32,6 +33,24 @@ def getrateinfo():
 
     return response
 
+@app.route('/sp')
+def sp():
+    headers = {'Authorization': 'zdio4dzwyth4gxdx0vn27ftxutz6lqhhgbh8tyti'}
+    res = requests.get('https://openapi.daocloud.io/v1/apps', headers=headers).json()
 
-# if __name__ == '__main__':
-#     app.run(debug=True, host='0.0.0.0', port=5000)
+    for rapp in res['app']:
+        if rapp['name'] == 'wx_auto':
+            if rapp['state'] == 'stopped':
+                appid = rapp['id']
+
+                surl = 'https://openapi.daocloud.io/v1/apps/%s/actions/start' % appid
+
+                sapp = requests.post(surl, headers=headers).json()
+
+                return render_template('sp.html', resinfo='启动命令生效')
+
+            else:
+                return render_template('sp.html', resinfo='已启动')
+
+if __name__ == '__main__':
+    app.run(debug=True, host='127.0.0.1', port=5000)
